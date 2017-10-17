@@ -39,6 +39,10 @@ void j1Map::PropagateBFS()
 {
 	// TODO 1: If frontier queue contains elements
 	// pop the last one and calculate its 4 neighbors
+	if (frontier.Count() >= 1) {
+		frontier.Pop(frontier.GetLast()->data);
+	}
+
 
 	// TODO 2: For each neighbor, if not visited, add it
 	// to the frontier queue and visited list
