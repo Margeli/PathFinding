@@ -39,13 +39,34 @@ void j1Map::PropagateBFS()
 {
 	// TODO 1: If frontier queue contains elements
 	// pop the last one and calculate its 4 neighbors
-	if (frontier.Count() >= 1) {
-		frontier.Pop(frontier.GetLast()->data);
-	}
+	iPoint actual;
 
+	if (frontier.Count() > 0) {
+		actual = frontier.GetLast()->data;
+		frontier.Pop(actual);
+		p2List<iPoint>	neighbours;
+
+		neighbours.add({ actual.x + 1, actual.y });
+		neighbours.add({ actual.x - 1, actual.y });
+		neighbours.add({ actual.x , actual.y + 1});
+		neighbours.add({ actual.x , actual.y- 1 });
+
+		for (p2List_item<iPoint>* neighbor = neighbours.start; neighbor; neighbor=neighbor->next) {
+			if (visited.find(neighbor->data) == -1) {
+				visited.add(neighbor->data);
+				frontier.Push(neighbor->data);
+			}		
+		}
+	}
+	
+	
 
 	// TODO 2: For each neighbor, if not visited, add it
 	// to the frontier queue and visited list
+
+
+
+
 }
 
 void j1Map::DrawBFS()
