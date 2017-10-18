@@ -52,7 +52,7 @@ void j1Map::PropagateBFS()
 		neighbours.add({ actual.x , actual.y- 1 });
 
 		for (p2List_item<iPoint>* neighbor = neighbours.start; neighbor; neighbor=neighbor->next) {
-			if (visited.find(neighbor->data) == -1) {
+			if (visited.find(neighbor->data) == -1&& IsWalkable(neighbor->data.x, neighbor->data.y)) {
 				visited.add(neighbor->data);
 				frontier.Push(neighbor->data);
 			}		
@@ -107,6 +107,30 @@ bool j1Map::IsWalkable(int x, int y) const
 {
 	// TODO 3: return true only if x and y are within map limits
 	// and the tile is walkable (tile id 0 in the navigation layer)
+
+
+	p2List_item<MapLayer*>* iter_layer;
+
+	for (iter_layer = data.layers.start; iter_layer; iter_layer = iter_layer->next) {
+		
+			
+		if (iter_layer->data->properties.Get("Navigation") == 1) {
+			if (iter_layer->data->Get(x, y) != 0) {
+				return false;
+			}
+		}
+		if ((iter_layer->data->width <= x || x<0) ||( iter_layer->data->height<=y || y < 0)) {
+		
+			return false;
+		}
+
+
+	}
+	
+
+
+
+
 	return true;
 }
 
