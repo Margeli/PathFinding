@@ -48,7 +48,17 @@ void j1Map::Path(int x, int y)
 {
 	path.Clear();
 	iPoint goal = WorldToMap(x, y);
+	
+	for (int i = 0; i < breadcrumbs.count(); i++)
+		if (breadcrumbs[i] == goal) {
+			for (int j = i; j > 0; j--) {//iterates trhough the breadcrumbs from the mouse click tile
+				
+				path.PushBack(breadcrumbs.find[j]);
+			}
+		
+		}
 
+		
 	// TODO 2: Follow the breadcrumps to goal back to the origin
 	// add each step into "path" dyn array (it will then draw automatically)
 }
@@ -84,6 +94,7 @@ void j1Map::PropagateBFS()
 	iPoint curr;
 	if (frontier.Pop(curr))
 	{
+		breadcrumbs.add(curr);
 		iPoint neighbors[4];
 		neighbors[0].create(curr.x + 1, curr.y + 0);
 		neighbors[1].create(curr.x + 0, curr.y + 1);
@@ -102,6 +113,7 @@ void j1Map::PropagateBFS()
 			}
 		}
 	}
+	
 }
 
 void j1Map::DrawPath()
