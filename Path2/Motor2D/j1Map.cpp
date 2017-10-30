@@ -72,7 +72,7 @@ void j1Map::PropagateDijkstra()
 	iPoint curr;
 	if (frontier.Pop(curr))
 	{
-		if (visited.find(Goal)==-1){
+		
 		iPoint neighbors[4];
 		neighbors[0].create(curr.x + 1, curr.y + 0);
 		neighbors[1].create(curr.x + 0, curr.y + 1);
@@ -96,7 +96,7 @@ void j1Map::PropagateDijkstra()
 				}
 			}
 		}
-	}
+	
 }
 }
 void j1Map::PropagateAStar()
@@ -108,7 +108,7 @@ void j1Map::PropagateAStar()
 	iPoint curr;
 	if (frontier.Pop(curr))
 	{
-		if (curr != Goal) {
+		if (visited.find(Goal) == -1) {
 			iPoint neighbors[4];
 			neighbors[0].create(curr.x + 1, curr.y + 0);
 			neighbors[1].create(curr.x + 0, curr.y + 1);
