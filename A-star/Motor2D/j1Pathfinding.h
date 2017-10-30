@@ -46,6 +46,7 @@ public:
 
 private:
 
+	
 	// size of the map
 	uint width;
 	uint height;
