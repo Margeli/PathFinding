@@ -80,13 +80,29 @@ void j1Map::PropagateDijkstra()
 		neighbors[3].create(curr.x + 0, curr.y - 1);
 		for (uint i = 0; i < 4; ++i)
 		{	
-			int CurrentCost = MovementCost(neighbors[i].x, neighbors[i].y);
-			if (CurrentCost >= 0){ // inside map limits
-				cost_so_far[neighbors[i].x][neighbors[i].y] = 
-
+			int CurrentCost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+			if ((cost_so_far[neighbors[i].x][neighbors[i].y] == 0) || (CurrentCost < cost_so_far[neighbors[i].x][neighbors[i].y])) { //Check if cost_so_far is empty or is less than the previous path 
+				
+				if (MovementCost(neighbors[i].x, neighbors[i].y) >= 0) {
+					cost_so_far[neighbors[i].x][neighbors[i].y] = CurrentCost;
+					frontier.Push(neighbors[i], CurrentCost);
+					if (visited.find(neighbors[i]) == -1)
+					{
+						visited.add(neighbors[i]);
+						breadcrumbs.add(curr);
+					}
+					else
+						breadcrumbs.At(visited.find(neighbors[i]))->data = curr;
+				}
 			}
 		}
 	}
+
+	
+
+
+
+
 
 }
 
@@ -101,7 +117,7 @@ int j1Map::MovementCost(int x, int y) const
 		if (id == 0)
 			ret = 3;
 		else
-			ret = 0;
+			ret = 0; // if its water
 	}
 
 	return ret;
