@@ -126,6 +126,7 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
+	iPoint Goal;
 
 	// Pathfinding
 	int MovementCost(int x, int y) const;
@@ -136,6 +137,7 @@ public:
 	// Propagation style
 	void PropagateBFS();
 	void PropagateDijkstra();
+	void PropagateAStar();
 
 private:
 

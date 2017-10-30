@@ -68,21 +68,21 @@ void j1Map::PropagateDijkstra()
 	// TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
-	
+
 	iPoint curr;
 	if (frontier.Pop(curr))
 	{
-
+		if (visited.find(Goal)==-1){
 		iPoint neighbors[4];
 		neighbors[0].create(curr.x + 1, curr.y + 0);
 		neighbors[1].create(curr.x + 0, curr.y + 1);
 		neighbors[2].create(curr.x - 1, curr.y + 0);
 		neighbors[3].create(curr.x + 0, curr.y - 1);
 		for (uint i = 0; i < 4; ++i)
-		{	
+		{
 			int CurrentCost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
 			if ((cost_so_far[neighbors[i].x][neighbors[i].y] == 0) || (CurrentCost < cost_so_far[neighbors[i].x][neighbors[i].y])) { //Check if cost_so_far is empty or is less than the previous path 
-				
+
 				if (MovementCost(neighbors[i].x, neighbors[i].y) >= 0) {
 					cost_so_far[neighbors[i].x][neighbors[i].y] = CurrentCost;
 					frontier.Push(neighbors[i], CurrentCost);
@@ -97,13 +97,43 @@ void j1Map::PropagateDijkstra()
 			}
 		}
 	}
-
+}
+}
+void j1Map::PropagateAStar()
+{
+	// TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
+	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
+	// on each cell (is already reset to 0 automatically)
 	
+	iPoint curr;
+	if (frontier.Pop(curr))
+	{
+		if (curr != Goal) {
+			iPoint neighbors[4];
+			neighbors[0].create(curr.x + 1, curr.y + 0);
+			neighbors[1].create(curr.x + 0, curr.y + 1);
+			neighbors[2].create(curr.x - 1, curr.y + 0);
+			neighbors[3].create(curr.x + 0, curr.y - 1);
+			for (uint i = 0; i < 4; ++i)
+			{
+				int CurrentCost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+				if ((cost_so_far[neighbors[i].x][neighbors[i].y] == 0) || (CurrentCost < cost_so_far[neighbors[i].x][neighbors[i].y])) { //Check if cost_so_far is empty or is less than the previous path 
 
-
-
-
-
+					if (MovementCost(neighbors[i].x, neighbors[i].y) >= 0) {
+						cost_so_far[neighbors[i].x][neighbors[i].y] = CurrentCost;
+						frontier.Push(neighbors[i], CurrentCost);
+						if (visited.find(neighbors[i]) == -1)
+						{
+							visited.add(neighbors[i]);
+							breadcrumbs.add(curr);
+						}
+						else
+							breadcrumbs.At(visited.find(neighbors[i]))->data = curr;
+					}
+				}
+			}
+		}
+	}
 }
 
 int j1Map::MovementCost(int x, int y) const

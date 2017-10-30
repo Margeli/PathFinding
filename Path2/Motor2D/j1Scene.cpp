@@ -81,6 +81,7 @@ bool j1Scene::Update(float dt)
 	{
 		iPoint p;
 		App->input->GetMousePosition(p.x, p.y);
+		App->map->Goal = App->scene->WorldToMap(x, y);
 		App->map->Path(p.x - App->render->camera.x, p.y - App->render->camera.y);
 	}
 
